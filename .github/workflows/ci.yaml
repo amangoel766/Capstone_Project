@@ -15,6 +15,14 @@ jobs:
         with:
           python-version: '3.10'
 
+      # Authenticate with AWS
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1  # Change to your region
+
       - name: Cache pip dependencies
         uses: actions/cache@v3
         with:
@@ -26,12 +34,23 @@ jobs:
       - name: install dependencies
         run: |
           pip install -r requirements.txt
+          pip install dvc[s3] # Ensure DVC S3 support is installed
 
-      - name: run pipeline
+      # Setup DVC and Push
+      - name: Run DVC Pipeline and Push
         env:
           CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
         run: |
-          dvc repro
+          # Pull existing data (optional, but good for caching)
+          dvc pull 
+          
+          # Run the pipeline (this creates new artifacts)
+          dvc repro 
+          
+          # Push the new artifacts to S3
+          dvc push
+
+      
 
       # - name: Run model tests
       #   env:

@@ -41,8 +41,6 @@ jobs:
         env:
           CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
         run: |
-          # Pull existing data (optional, but good for caching)
-          dvc pull 
           
           # Run the pipeline (this creates new artifacts)
           dvc repro 

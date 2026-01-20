@@ -130,7 +130,7 @@ model = mlflow.pyfunc.load_model(model_uri)
 # vectorizer = pickle.load(open('data/models/vectorizer.pkl', 'rb'))
 
 # used below while creating docker image of app.py
-vectorizer = pickle.load(open('/app/models/vectorizer.pkl', 'rb'))
+vectorizer = pickle.load(open('data/models/vectorizer.pkl', 'rb'))
 
 # Routes
 @app.route("/")

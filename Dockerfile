@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY flask_app/ /app/
 
-COPY data/models/vectorizer.pkl /app/models/vectorizer.pkl
+COPY data/models/vectorizer.pkl data/models/vectorizer.pkl
 
 RUN pip install -r requirements.txt
 
